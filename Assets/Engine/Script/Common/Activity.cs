@@ -100,9 +100,7 @@ public class Activity : LuaBehaviour
             //加载入口文件 main.lua
             DoFile(_name);
 
-            yield return new WaitForEndOfFrame();
-
-            CallMethod("Start");
+            yield return new WaitForEndOfFrame();            
 
             log += string.Format("\n{0} created!  ", "res");
 
