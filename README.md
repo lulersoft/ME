@@ -10,6 +10,12 @@
 
 <b>使用lua 编写2D,3D全平台运行游戏，一次编写，到处发布</b><br>
 
+//------------------核心思路----------<br>
+ME框架的思路就是 一个GameObject 对应挂个LuaBehaviour.cs脚本，这个LuaBehaviour.cs脚本DoFile一个lua脚本，lua脚本和LuaBehaviour.cs和GameObject都可以交互控制。<br>
+
+个个GameObject间通过Lua 消息进行通信。<br>
+
+
 //-----------------安装说明------------<br>
 Assets/Engine 为本框所有架核心代码，其它请和 https://github.com/Mervill/Unity3D-NLua 保持一致.<br>
 
