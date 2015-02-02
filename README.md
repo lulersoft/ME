@@ -11,12 +11,13 @@
 <b>使用lua 编写2D,3D全平台运行游戏，一次编写，到处发布</b><br>
 
 //-----------------安装说明------------<br>
-Assets/Engine 为本框所有架核心代码，其它请和https://github.com/Mervill/Unity3D-NLua保持一致 Assets/data/lua为 lua脚本代码<br>
+Assets/Engine 为本框所有架核心代码，其它请和 https://github.com/Mervill/Unity3D-NLua 保持一致.<br>
 
 wwwroot目录为web服务器目录，请上传到您的web服务器 请修改version内json参数,status： 0 无更新，1有更新包;force 1强制更新,0不强制更新,downrul 更新包路径<br>
 
 u3d工程目录内:<br>
 Assets/data为资源文件，所有打包的文件存放这里(含lua)。 <br>
+Assets/data/lua为 lua 脚本代码<br>
 Assets/StreamingAssets 存放的是生成好的更新包(data.zip),内容为data资源文件夹。<br>
 生成后，请把一份上传到wwwroot服务器目录内，供客户端下载更新。<br>
 
