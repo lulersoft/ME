@@ -1,4 +1,4 @@
-using UnityEditor;
+ï»¿using UnityEditor;
 using UnityEngine;
 using System.IO;
 using System.Text;
@@ -14,7 +14,7 @@ public class Packager
     ///-----------------------------------------------------------
     static string[] exts = { ".txt", ".xml", ".lua", ".assetbundle" };
     static bool CanCopy(string ext)
-    {   //ÄÜ²»ÄÜ¸´ÖÆ
+    {   //èƒ½ä¸èƒ½å¤åˆ¶
         foreach (string e in exts)
         {
             if (ext.Equals(e)) return true;
@@ -22,7 +22,17 @@ public class Packager
         return false;
     }
 
-    [MenuItem("ME Tools/ÖÆ×÷¸üĞÂ°ü£º°ÑdataÄ¿Â¼Ñ¹ËõÎªÒ»¸özip°ü²¢·ÅÈëStreamingAssetsÄ¿Â¼")]
+    [MenuItem("ME Tools/æ¸…ç†ç¼“å­˜,è®©ä¸€åˆ‡é‡æ–°å¼€å§‹")]
+    static void CleanCacheFiles()
+    {
+        string CachePath = Application.persistentDataPath;
+        DirectoryInfo di = new DirectoryInfo(CachePath);
+        di.Delete(true);
+
+        Debug.Log("ç›®å½•:" + CachePath + " å·²ç»åˆ é™¤!");
+    }
+
+    [MenuItem("ME Tools/åˆ¶ä½œæ›´æ–°åŒ…ï¼šæŠŠdataç›®å½•å‹ç¼©ä¸ºä¸€ä¸ªzipåŒ…å¹¶æ”¾å…¥StreamingAssetsç›®å½•")]
     static void PackFiles()
     {   
   
@@ -31,25 +41,25 @@ public class Packager
 
         cleanMeta(srcPath);
 
-        //Ñ¹ËõÎÄ¼ş    
+        //å‹ç¼©æ–‡ä»¶    
         API.PackFiles(assetPath + "/data.zip", srcPath);
         AssetDatabase.Refresh();
 
-        Debug.Log("dataÄ¿Â¼Ñ¹Ëõ´ò°ü³É¹¦£¬ÎÄ¼ş£º" + assetPath + "/data.zip");
-        Debug.Log("°ÑÕâ¸öÎÄ¼şÉÏ´«µ½web¸üĞÂ·şÎñÆ÷Ä¿Â¼°É");
+        Debug.Log("dataç›®å½•å‹ç¼©æ‰“åŒ…æˆåŠŸï¼Œæ–‡ä»¶ï¼š" + assetPath + "/data.zip");
+        Debug.Log("æŠŠè¿™ä¸ªæ–‡ä»¶ä¸Šä¼ åˆ°webæ›´æ–°æœåŠ¡å™¨ç›®å½•å§");
 
     }
     /*
     [MenuItem("Game/UnZIP Data folder ")] 
     static void UnpackFiles()
     {
-        //½âÑ¹ÎÄ¼ş
+        //è§£å‹æ–‡ä»¶
         Util.UnpackFiles(Application.dataPath + "/data.zip", Application.dataPath + "/data/");
         AssetDatabase.Refresh();
     }
     */
     /// <summary>
-    /// ÔØÈëËØ²Ä
+    /// è½½å…¥ç´ æ
     /// </summary>
     static UnityEngine.Object LoadAsset(string file)
     {
@@ -57,45 +67,45 @@ public class Packager
         return AssetDatabase.LoadMainAssetAtPath("Assets/Builds/" + file);
     }
 
-    //´ò°üµ¥¸ö
-    [MenuItem("ME Tools/¶ÀÁ¢´ò°üÑ¡ÖĞÄ¿Â¼ÏÂµÄ¸÷¸ö¶ÔÏó²¢·ÅÈëdataÄ¿Â¼")]
+    //æ‰“åŒ…å•ä¸ª
+    [MenuItem("ME Tools/ç‹¬ç«‹æ‰“åŒ…é€‰ä¸­ç›®å½•ä¸‹çš„å„ä¸ªå¯¹è±¡å¹¶æ”¾å…¥dataç›®å½•")]
     static void CreateAssetBunldesMain()
     {
-        //»ñÈ¡ÔÚProjectÊÓÍ¼ÖĞÑ¡ÔñµÄËùÓĞÓÎÏ·¶ÔÏó
+        //è·å–åœ¨Projectè§†å›¾ä¸­é€‰æ‹©çš„æ‰€æœ‰æ¸¸æˆå¯¹è±¡
         Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
         BuildTarget target = GetTargetPlatform();
         string assetPath = Application.dataPath + "/data/asset/" + target + "/";
-        //±éÀúËùÓĞµÄÓÎÏ·¶ÔÏó 
+        //éå†æ‰€æœ‰çš„æ¸¸æˆå¯¹è±¡ 
         foreach (Object obj in SelectedAsset)
         {            
-            //±¾µØ²âÊÔ£º½¨Òé×îºó½«Assetbundle·ÅÔÚStreamingAssetsÎÄ¼ş¼ĞÏÂ£¬Èç¹ûÃ»ÓĞ¾Í´´½¨Ò»¸ö£¬ÒòÎªÒÆ¶¯Æ½Ì¨ÏÂÖ»ÄÜ¶ÁÈ¡Õâ¸öÂ·¾¶
-            //StreamingAssetsÊÇÖ»¶ÁÂ·¾¶£¬²»ÄÜĞ´Èë
-            //·şÎñÆ÷ÏÂÔØ£º¾Í²»ĞèÒª·ÅÔÚÕâÀï£¬·şÎñÆ÷ÉÏ¿Í»§¶ËÓÃwwwÀà½øĞĞÏÂÔØ¡£
+            //æœ¬åœ°æµ‹è¯•ï¼šå»ºè®®æœ€åå°†Assetbundleæ”¾åœ¨StreamingAssetsæ–‡ä»¶å¤¹ä¸‹ï¼Œå¦‚æœæ²¡æœ‰å°±åˆ›å»ºä¸€ä¸ªï¼Œå› ä¸ºç§»åŠ¨å¹³å°ä¸‹åªèƒ½è¯»å–è¿™ä¸ªè·¯å¾„
+            //StreamingAssetsæ˜¯åªè¯»è·¯å¾„ï¼Œä¸èƒ½å†™å…¥
+            //æœåŠ¡å™¨ä¸‹è½½ï¼šå°±ä¸éœ€è¦æ”¾åœ¨è¿™é‡Œï¼ŒæœåŠ¡å™¨ä¸Šå®¢æˆ·ç«¯ç”¨wwwç±»è¿›è¡Œä¸‹è½½ã€‚
             if (obj is GameObject)
             {
                 string targetPath = assetPath + obj.name + ".assetbundle";
                 if (BuildPipeline.BuildAssetBundle(obj, null, targetPath, BuildAssetBundleOptions.CollectDependencies, target))
                 {
-                    Debug.Log(obj.name + " ==>×ÊÔ´´ò°ü³É¹¦");
+                    Debug.Log(obj.name + " ==>èµ„æºæ‰“åŒ…æˆåŠŸ");
                 }
                 else
                 {
-                    Debug.Log(obj.name + " ==>×ÊÔ´´ò°üÊ§°Ü");
+                    Debug.Log(obj.name + " ==>èµ„æºæ‰“åŒ…å¤±è´¥");
                 }
             }
         }
-        //Ë¢ĞÂ±à¼­Æ÷ 
+        //åˆ·æ–°ç¼–è¾‘å™¨ 
         AssetDatabase.Refresh();
     }
     /// <summary>
-    /// Éú³É°ó¶¨ËØ²Ä
+    /// ç”Ÿæˆç»‘å®šç´ æ
     /// </summary>
-    [MenuItem("ME Tools/°ÑBuildsÄ¿Â¼ÏÂµÄ×ÊÔ´½øĞĞÒÀÀµ´ò°ü²¢·ÅÈëdataÄ¿Â¼")]
+    [MenuItem("ME Tools/æŠŠBuildsç›®å½•ä¸‹çš„èµ„æºè¿›è¡Œä¾èµ–æ‰“åŒ…å¹¶æ”¾å…¥dataç›®å½•")]
     public static void BuildAssetResource()
     {
-        Object mainAsset = null;        //Ö÷ËØ²ÄÃû£¬µ¥¸ö
-        Object[] addis = null;     //¸½¼ÓËØ²ÄÃû£¬¶à¸ö
-        string assetfile = string.Empty;  //ËØ²ÄÎÄ¼şÃû
+        Object mainAsset = null;        //ä¸»ç´ æåï¼Œå•ä¸ª
+        Object[] addis = null;     //é™„åŠ ç´ æåï¼Œå¤šä¸ª
+        string assetfile = string.Empty;  //ç´ ææ–‡ä»¶å
 
         BuildAssetBundleOptions options = BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.CollectDependencies |
                                           BuildAssetBundleOptions.CompleteAssets | BuildAssetBundleOptions.DeterministicAssetBundle;
@@ -105,14 +115,14 @@ public class Packager
         string assetPath = Application.dataPath + "/data/asset/" + target + "/";
         if (!Directory.Exists(assetPath)) Directory.CreateDirectory(assetPath);
 
-        ///-----------------------------Éú³É¹²ÏíµÄ¹ØÁªĞÔËØ²Ä°ó¶¨-------------------------------------
+        ///-----------------------------ç”Ÿæˆå…±äº«çš„å…³è”æ€§ç´ æç»‘å®š-------------------------------------
         BuildPipeline.PushAssetDependencies();
 
         assetfile = assetPath + "shared.assetbundle";
         mainAsset = LoadAsset("Shared/Atlas/Dialog.prefab");
         BuildPipeline.BuildAssetBundle(mainAsset, null, assetfile, options,target);
 
-        ///------------------------------Éú³ÉPromptPanelËØ²Ä°ó¶¨-----------------------------------
+        ///------------------------------ç”ŸæˆPromptPanelç´ æç»‘å®š-----------------------------------
         BuildPipeline.PushAssetDependencies();
         mainAsset = LoadAsset("Prompt/Prefabs/PromptPanel.prefab");
         addis = new Object[1];
@@ -121,20 +131,20 @@ public class Packager
         BuildPipeline.BuildAssetBundle(mainAsset, addis, assetfile, options, target);
         BuildPipeline.PopAssetDependencies();
 
-        ///------------------------------Éú³ÉMessagePanelËØ²Ä°ó¶¨-----------------------------------
+        ///------------------------------ç”ŸæˆMessagePanelç´ æç»‘å®š-----------------------------------
         BuildPipeline.PushAssetDependencies();
         mainAsset = LoadAsset("Message/Prefabs/MessagePanel.prefab");
         assetfile = assetPath + "message.assetbundle";
         BuildPipeline.BuildAssetBundle(mainAsset, null, assetfile, options, target);
         BuildPipeline.PopAssetDependencies();
 
-        ///-------------------------------Ë¢ĞÂ---------------------------------------
+        ///-------------------------------åˆ·æ–°---------------------------------------
         BuildPipeline.PopAssetDependencies();
         AssetDatabase.Refresh();
     }
 
 
-    [MenuItem("ME Tools/°ÑAtlasÄ¿Â¼ÏÂµÄ.pngÍ¼Æ¬×÷ÎªÍ¼¼¯×ÊÔ´²¢·ÅÈëdataÄ¿Â¼")]
+    [MenuItem("ME Tools/æŠŠAtlasç›®å½•ä¸‹çš„.pngå›¾ç‰‡ä½œä¸ºå›¾é›†èµ„æºå¹¶æ”¾å…¥dataç›®å½•")]
     static private void BuildUnityGUIAssetBundle()
     {
        // string dir = Application.dataPath + "/StreamingAssets";
@@ -165,7 +175,7 @@ public class Packager
 
 
     /// <summary>
-    /// Êı¾İÄ¿Â¼
+    /// æ•°æ®ç›®å½•
     /// </summary>
     static string AppDataPath
     {
@@ -185,7 +195,7 @@ public class Packager
         return target;
     }
 
-    //×ÊÔ´Ä¿±êÆ½Ì¨
+    //èµ„æºç›®æ ‡å¹³å°
     static BuildTarget GetTargetPlatform()
     {
          BuildTarget target;
@@ -202,7 +212,7 @@ public class Packager
     }
 
     /// <summary>
-    /// ±éÀúÄ¿Â¼¼°Æä×ÓÄ¿Â¼
+    /// éå†ç›®å½•åŠå…¶å­ç›®å½•
     /// </summary>
     static void Recursive(string path)
     {
