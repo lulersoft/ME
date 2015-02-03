@@ -126,6 +126,7 @@ public class LuaBehaviour : MonoBehaviour
 
         try
         {
+            API.BundleTable[name]=bundle;
             if (handler != null) handler(name, bundle);
         }
         catch (NLua.Exceptions.LuaException e)
