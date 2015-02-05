@@ -32,12 +32,12 @@ public class Packager
         Debug.Log("目录:" + CachePath + " 已经删除!");
     }
 
-    [MenuItem("ME Tools/制作更新包：把data目录压缩为一个zip包并放入StreamingAssets目录")]
+    [MenuItem("ME Tools/制作更新包：把Data目录压缩为一个zip包并放入StreamingAssets目录")]
     static void PackFiles()
     {   
   
         string assetPath = Application.dataPath + "/StreamingAssets/";
-        string srcPath = Application.dataPath + "/data/";
+        string srcPath = Application.dataPath + "/Data/";
 
         cleanMeta(srcPath);
 
@@ -45,7 +45,7 @@ public class Packager
         API.PackFiles(assetPath + "/data.zip", srcPath);
         AssetDatabase.Refresh();
 
-        Debug.Log("data目录压缩打包成功，文件：" + assetPath + "/data.zip");
+        Debug.Log("Data目录压缩打包成功，文件：" + assetPath + "/data.zip");
         Debug.Log("把这个文件上传到web更新服务器目录吧");
 
     }
@@ -68,13 +68,13 @@ public class Packager
     }
 
     //打包单个
-    [MenuItem("ME Tools/独立打包选中目录下的各个对象并放入data目录")]
+    [MenuItem("ME Tools/独立打包选中目录下的各个对象并放入Data目录")]
     static void CreateAssetBunldesMain()
     {
         //获取在Project视图中选择的所有游戏对象
         Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
         BuildTarget target = GetTargetPlatform();
-        string assetPath = Application.dataPath + "/data/asset/" + target + "/";
+        string assetPath = Application.dataPath + "/Data/asset/" + target + "/";
         //遍历所有的游戏对象 
         foreach (Object obj in SelectedAsset)
         {            
@@ -100,7 +100,7 @@ public class Packager
     /// <summary>
     /// 生成绑定素材
     /// </summary>
-    [MenuItem("ME Tools/把Builds目录下的资源进行依赖打包并放入data目录")]
+    [MenuItem("ME Tools/把Builds目录下的资源进行依赖打包并放入Data目录")]
     public static void BuildAssetResource()
     {
         Object mainAsset = null;        //主素材名，单个
@@ -112,7 +112,7 @@ public class Packager
 
         BuildTarget target = GetTargetPlatform();
 
-        string assetPath = Application.dataPath + "/data/asset/" + target + "/";
+        string assetPath = Application.dataPath + "/Data/asset/" + target + "/";
         if (!Directory.Exists(assetPath)) Directory.CreateDirectory(assetPath);
 
         ///-----------------------------生成共享的关联性素材绑定-------------------------------------
@@ -144,12 +144,12 @@ public class Packager
     }
 
 
-    [MenuItem("ME Tools/把Atlas目录下的.png图片作为图集资源并放入data目录")]
+    [MenuItem("ME Tools/把Atlas目录下的.png图片作为图集资源并放入Data目录")]
     static private void BuildUnityGUIAssetBundle()
     {
        // string dir = Application.dataPath + "/StreamingAssets";
         BuildTarget target = GetTargetPlatform();
-        string assetPath = Application.dataPath + "/data/asset/" + target + "/Atlas/";
+        string assetPath = Application.dataPath + "/Data/asset/" + target + "/Atlas/";
 
         if (!Directory.Exists(assetPath))
         {
