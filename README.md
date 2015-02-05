@@ -57,4 +57,5 @@ unity3d editor编辑器负责可视化资源的创建和打包。<br>
 带zip资源生成和下载发布<br>
 
 框架附带打地鼠游戏截图:<br>
-![打地鼠][demo.jpg]
+![](img_url)
+![打地鼠][./demo.jpg]
