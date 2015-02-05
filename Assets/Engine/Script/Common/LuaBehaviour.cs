@@ -18,16 +18,10 @@ public class LuaBehaviour : MonoBehaviour
     protected bool isLuaReady = false;
     private string script = "";
 
-    private Lua env;
+    private Lua env = API.env;
     protected LuaTable table;
 
-    protected List<MissionPack> MissionList = new List<MissionPack>();
-
-    protected void Awake()
-    {
-        env = API.env;
-    }
-   
+    protected List<MissionPack> MissionList = new List<MissionPack>();   
 
     protected void Update()
     {

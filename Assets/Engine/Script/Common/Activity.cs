@@ -12,9 +12,8 @@ public class Activity : LuaBehaviour
 
     bool isDebug = false;
 
-      new void Awake()
-    {
-        base.Awake();
+    void Awake()
+    {       
         InitAsstes(); 
     }
     

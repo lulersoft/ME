@@ -99,7 +99,7 @@ public class API  {
     {
         WebClientEx webClient = new WebClientEx();
         webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";  //采取POST方式必须加的header，如果改为GET方式的话就去掉这句话即可  
-        
+        webClient.Encoding = System.Text.UTF8Encoding.UTF8;
         System.Uri uri = new System.Uri(url);
         webClient.UploadProgressChanged += progressHander;
         webClient.UploadStringCompleted += completehandler;
