@@ -13,8 +13,11 @@
 //------------------核心思路----------<br>
 ME框架的思路就是 一个GameObject 对应挂个LuaBehaviour.cs脚本，这个LuaBehaviour.cs脚本DoFile一个lua脚本，lua脚本和LuaBehaviour.cs和GameObject都可以交互控制。<br>
 
-个个GameObject间通过Lua 消息进行通信。<br>
+各各GameObject间通过Lua 消息进行通信。<br>
 
+框架附带打地鼠游戏截图:<br>
+
+![](demo.jpg)
 
 //-----------------安装说明------------<br>
 Assets/Engine 为本框所有架核心代码，其它请和 https://github.com/Mervill/Unity3D-NLua 保持一致.<br>
@@ -56,6 +59,4 @@ unity3d editor编辑器负责可视化资源的创建和打包。<br>
 //-------------2015-1-18--------------- 版本 0.0.1<br>
 带zip资源生成和下载发布<br>
 
-框架附带打地鼠游戏截图:<br>
 
-![][./demo.jpg]
