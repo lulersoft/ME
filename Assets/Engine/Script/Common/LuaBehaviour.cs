@@ -44,7 +44,7 @@ public class LuaBehaviour : MonoBehaviour
         }
     }
 
-    public void AddMission(LuaFunction func,object[] args)
+    public void AddMission(LuaFunction func,params object[] args)
     {
         MissionList.Add(new MissionPack(func, args));
     }
@@ -335,7 +335,7 @@ public struct  MissionPack
     public LuaFunction func;
     public object[] args;
 
-    public MissionPack(LuaFunction _func,object[] _args)
+    public MissionPack(LuaFunction _func,params object[] _args)
     {
         func = _func;
         args = _args;
