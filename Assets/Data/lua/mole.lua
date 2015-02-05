@@ -55,8 +55,11 @@ function  mole.onClick(go)
 	
 	mole.live=0
 
-	LeanTween.moveLocal( gameObject, to, 0.5):setEase(LeanTweenType.easeInQuad):setOnComplete(mole.onOutcomplete)
-	
+	LeanTween.cancel(gameObject)	
+
+	--停止1秒后，缩回洞里
+	this:RunCoroutine(WaitForSeconds(1),mole.comIn,nil)
+		
 	--停止播放动画
 	animator.enabled=false
 
@@ -65,10 +68,7 @@ function  mole.onClick(go)
 	image:SetNativeSize()
 
 	--发消息通知全世界,俺打中一头鼹鼠了。
-	this:Broadcast("hit on one mole",gameObject)
-
-	--缩回洞里
-	mole.comIn()
+	this:Broadcast("hit on one mole",gameObject)	
 	
 end
 
@@ -80,7 +80,7 @@ function mole.comeOut()
    	end
 
    	mole.status=1
-   	mole.live=1
+   	
 
 	--鼹鼠出洞
 	--参数方法:setOrientToPath(true):setEase(LeanTweenType.easeInQuart):setDelay(1):setOnComplete(oncomplete):setOnCompleteParam(paths) --setOrientToPath(true):
@@ -105,6 +105,8 @@ function mole.onIncomplete()
 	    this:Broadcast("missing one mole",gameObject)
 		
 	end
+
+	mole.live=1
 	
 end
 

@@ -212,13 +212,20 @@ public class LuaBehaviour : MonoBehaviour
       //协程
     public void RunCoroutine(YieldInstruction ins, LuaFunction func, params System.Object[] args)
     {
-        StartCoroutine(doCoroutine(ins, func, args));
+        StartCoroutine(doCoroutine(ins, func, args)); 
     }
 
     private IEnumerator doCoroutine(YieldInstruction ins, LuaFunction func, params System.Object[] args)
     {
         yield return ins;
-        func.Call(args);
+        if (args != null)
+        {
+            func.Call(args);
+        }
+        else
+        {
+            func.Call();
+        }
     }
 
 

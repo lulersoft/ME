@@ -86,9 +86,7 @@ function main.onMissMole(go)
 end
 
 
-function main.Update()
-	main.onKeyBackDown()		
-end
+
 
 function main.OnDestroy()
 	API.KillTimer(time)
@@ -96,12 +94,12 @@ end
 
 
 --退出系统
-local touchTime=0
+main.touchTime=0
 function main.onKeyBackDown()
 	if Input.GetKeyUp(KeyCode.Escape) then		
-		if Time.realtimeSinceStartup-touchTime >=2000 then	
-			Debug.Log(Time.realtimeSinceStartup-touchTime)
-			touchTime=Time.realtimeSinceStartup
+		if Time.realtimeSinceStartup-main.touchTime >=2000 then	
+			--Debug.Log(Time.realtimeSinceStartup-touchTime)
+			main.touchTime=Time.realtimeSinceStartup
 		else
 			Application.Quit()
 		end		
@@ -226,17 +224,9 @@ function main.onStartBntClick(go)
 
 end
 
-local count=0
+
 function main.Update()
-
-	if gameOver==false then
-
-		count=count+1
-		if count%150 == 0 then		
-       		main.moleComeOut()
-        	count=0
-    	end    	
-	end
+	main.onKeyBackDown()
 end
 
 
@@ -254,7 +244,7 @@ function main.moleComeOut()
 	local mole=moleArr[idx]
 		
 	if mole then
-		if mole.status==false then
+		if mole.status==1 then
 			main.moleComeOut()
 		else
 			mole.comeOut()

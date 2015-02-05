@@ -16,7 +16,30 @@ public class Activity : LuaBehaviour
     {       
         InitAsstes(); 
     }
-    
+
+    //public int outVal()
+    //  {
+    //      return 0;
+    //  }
+      public int outVal(out int val)
+      {
+          val = 5;
+          return 3;
+      }
+
+      public int outVal(out int val, int val2)
+      {
+          val = 5;
+          return val2;
+      }
+
+      public int outVal(int val, ref int val2)
+      {
+          val2 = val + val2;
+          return val;
+      }
+
+
     IEnumerator loadStreamingAssets()
     {
         string sorucefilename = "data.zip";
@@ -24,6 +47,9 @@ public class Activity : LuaBehaviour
         string log = "";
 
         string _name = "main.lua";
+        //Ray ray=Camera.main.ScreenPointToRay(Input.mousePosition);
+      
+        //Physics.Raycast( ray.origin,ray.direction,)
 
         byte[] bytes = null;
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
@@ -45,7 +71,7 @@ public class Activity : LuaBehaviour
         yield return www;
         if (www.error != null)
         {           
-            NGUIDebug.Log("Warning errow: " + "loadStreamingAssets");
+            Debug.Log("Warning errow: " + "loadStreamingAssets");
             yield break;
         }
 		bytes = www.bytes; 
@@ -68,11 +94,11 @@ public class Activity : LuaBehaviour
         yield return www;
         if (www.error != null)
         {           
-            NGUIDebug.Log("Warning errow: " + "loadStreamingAssets");
+            Debug.Log("Warning errow: " + "loadStreamingAssets");
             yield break;
         }
 		bytes = www.bytes; 
-		//NGUIDebug.Log("字节长度为：" + bytes.Length); 
+		//Debug.Log("字节长度为：" + bytes.Length); 
 #endif
         if (bytes != null)
         {
