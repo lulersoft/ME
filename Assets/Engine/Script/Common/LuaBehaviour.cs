@@ -17,12 +17,17 @@ public class LuaBehaviour : MonoBehaviour
     public bool usingUpdate = false;
     protected bool isLuaReady = false;
     private string script = "";
-
-    private Lua env = API.env;
+  
     protected LuaTable table;
+    protected List<MissionPack> MissionList = new List<MissionPack>();
 
-    protected List<MissionPack> MissionList = new List<MissionPack>();   
-
+    protected Lua env
+    {
+        get
+        {
+            return API.env;
+        }
+    }
     protected void Update()
     {
         if (MissionList.Count > 0)
