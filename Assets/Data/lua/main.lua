@@ -11,12 +11,6 @@ appid=1
 weburl="http://192.168.1.30/version" --升级网址
 AssetRoot=nil
 
-function waitSeconds(t)
-	local timeStamp=Time.time+t
-	while Time.time<timeStamp do
-		coroutine.yield()
-	end
-end
 
 local this
 local tmpfile
@@ -84,8 +78,6 @@ function main.onMissMole(go)
 	end
 
 end
-
-
 
 
 function main.OnDestroy()
@@ -290,7 +282,7 @@ function main.OnSendRequestCompleted(sender,e)
 
 	else		
 		local str=e.Result
-		--Debug.Log("json:"..str)
+		Debug.Log("json:"..str)
 		local obj, pos, err = json.decode (str, 1, nil)
 
 		if err then
@@ -305,7 +297,7 @@ function main.OnSendRequestCompleted(sender,e)
 		  	if obj.downurl then
 		  		--开始升级
 		  		tmpfile=AssetRoot.."/tmp.zip"
-		  		local webclinet=API.DownLoad(obj.downurl,tmpfile,main.OnDownloadProgressChanged,main.OnDownloadStringCompleted)
+		  		local webclinet=API.DownLoad(obj.downurl,tmpfile,main.OnDownloadProgressChanged,main.OnDownloadCompleted)
 		  	else
 		  		--开始游戏逻辑
 				main.StartGame()
@@ -342,32 +334,42 @@ end
 
 --下载进度回调
 function main.OnDownloadProgressChanged(sender,e)
-	
+	--切换为主线程执行
+	this:AddMission(main.OnDownLoadProgress,e)
 end
-
+function main.OnDownLoadProgress(e)
+	local str=string.format("downloaded %s of %s bytes. %s complete...",    
+        e.BytesReceived, 
+        e.TotalBytesToReceive,
+        e.ProgressPercentage) 
+	Debug.Log(str)
+end
 --下载完成
-function main.OnDownloadStringCompleted(sender,e)
-	
+function main.OnDownloadCompleted(sender,e)
+	--切换为主线程执行
+	this:AddMission(main.OnDownData,e)
+end
+function main.OnDownData(e)
 	if e.Error then
-		Debug.Log("lua:下载错误:"..e.Error.Message)
+		Debug.Log("lua download err  :"..e.Message)
 		main.StartGame()
 	elseif e.Cancelled then
-		Debug.Log("lua:下载取消")
+		Debug.Log("lua:download Cancelled")
 		main.StartGame()
 	else
+		Debug.Log("download completed.. now unzip")
 		--tmpfile=this.AssetRoot.."/tmp.zip"
 		--解压缩
         API.UnpackFiles(tmpfile,AssetRoot)
         --删除下载的压缩包
         os.remove(tmpfile)
  		--File:Delete(tmpfile)
-        Debug.Log("升级完成,重启游戏")
+        Debug.Log("update completed!")
 
-        --重新加载main.lua
-        this:ReStart()
-
+        --重新加载main.lua --或开始执行旧游戏
+        --this:ReStart() --立即重新加载游戏（请确保你的版本升级服务器代码生效，如果status一直为1，,将会不断的循环升级）
+        main.StartGame() --执行旧的游戏，等下次启动游戏自动应用新版本
 	end
-	
 end
 
 
