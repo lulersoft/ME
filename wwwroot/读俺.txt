@@ -1,0 +1,2 @@
+请把Assets\StreamingAssets\data.zip 复制到这个目录。
+本目录为web端
