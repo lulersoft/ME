@@ -144,7 +144,12 @@ function main.onLoadComplete(uri,bundle)
 		--开始按钮
 		local uistartBnt=uiLevel:FindChild("Panel/startBnt")
 		startBnt=uistartBnt:GetComponent("Button")
-		EventListener.Get(uistartBnt.gameObject).onClick=main.onStartBntClick		
+		EventListener.Get(uistartBnt.gameObject).onClick=main.onStartBntClick
+
+		--版本信息
+		local uiver=uiLevel:FindChild("Panel/version")
+		local versionText=uiver:GetComponent("Text")
+		versionText.text="version:"..tostring(version)		
 		
 		--加载鼹鼠sprite Altas
 		local name = "Atlas/MoleAtlas"
@@ -183,7 +188,8 @@ function main.onLoadComplete(uri,bundle)
  			local moleGo=GameObject.Instantiate(prefab)
     		moleGo.name = name..tostring(i)
         	moleGo.layer = LayerMask.NameToLayer("UI")
-        	moleGo.transform.parent = uibgArr[idx]
+        	--moleGo.transform.parent = uibgArr[idx] 这个方法在ugui已经过期，使用SetParent()替换
+        	moleGo.transform:SetParent(uibgArr[idx])
         	moleGo.transform.localScale = Vector3.one
         	moleGo.transform.localPosition = Vector3(x,y,0)
         	
