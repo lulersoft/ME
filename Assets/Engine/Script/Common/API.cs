@@ -116,14 +116,14 @@ public class API  {
         
 
     //异步下载
-    public static WebClient DownLoad(string src, string SavePath, DownloadProgressChangedEventHandler progressHander, DownloadStringCompletedEventHandler completeHander)
+    public static WebClient DownLoad(string src, string SavePath, DownloadProgressChangedEventHandler progressHander, AsyncCompletedEventHandler completeHander)
     {
-        WebClient client = new WebClient();
+        WebClient client = new WebClient();       
         client.DownloadProgressChanged += progressHander;
-        client.DownloadStringCompleted += completeHander;
+        client.DownloadFileCompleted += completeHander;
         try
         {
-            client.DownloadStringAsync(new System.Uri(src), SavePath);
+            client.DownloadFileAsync(new System.Uri(src), SavePath);
         }
         catch (NLua.Exceptions.LuaException e)
         {
