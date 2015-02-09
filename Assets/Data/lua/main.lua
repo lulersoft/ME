@@ -31,6 +31,16 @@ function main.Start()
 
 	--检测更新 
     main.checkVersion() 
+
+    --性能测试
+ 	--main.testdemo()
+end
+
+--性能测试
+function main.testdemo()
+	local game = GameObject("Performance")
+	local lb = game:AddComponent("LuaBehaviour")
+	lb:DoFile("demo")
 end
 
 --检查更新
