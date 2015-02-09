@@ -34,10 +34,15 @@ public class Packager
 
     [MenuItem("ME Tools/制作更新包：把Data目录压缩为一个zip包并放入StreamingAssets目录")]
     static void PackFiles()
-    {   
-  
+    {
+
         string assetPath = Application.dataPath + "/StreamingAssets/";
         string srcPath = Application.dataPath + "/Data/";
+
+        if (!Directory.Exists(assetPath))
+        {
+            Directory.CreateDirectory(assetPath);
+        }
 
         cleanMeta(srcPath);
 
@@ -74,10 +79,16 @@ public class Packager
         //获取在Project视图中选择的所有游戏对象
         Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
         BuildTarget target = GetTargetPlatform();
-        string assetPath = Application.dataPath + "/Data/asset/" + target + "/";
+        string assetPath = Application.dataPath + "/Data/asset/" + target.ToString().ToLower() + "/";
+
+        if (!Directory.Exists(assetPath))
+        {
+            Directory.CreateDirectory(assetPath);
+        }
+
         //遍历所有的游戏对象 
         foreach (Object obj in SelectedAsset)
-        {            
+        {
             //本地测试：建议最后将Assetbundle放在StreamingAssets文件夹下，如果没有就创建一个，因为移动平台下只能读取这个路径
             //StreamingAssets是只读路径，不能写入
             //服务器下载：就不需要放在这里，服务器上客户端用www类进行下载。
@@ -103,6 +114,7 @@ public class Packager
     [MenuItem("ME Tools/把Builds目录下的资源进行依赖打包并放入Data目录")]
     public static void BuildAssetResource()
     {
+        /*
         Object mainAsset = null;        //主素材名，单个
         Object[] addis = null;     //附加素材名，多个
         string assetfile = string.Empty;  //素材文件名
@@ -141,15 +153,16 @@ public class Packager
         ///-------------------------------刷新---------------------------------------
         BuildPipeline.PopAssetDependencies();
         AssetDatabase.Refresh();
+         */
     }
 
 
     [MenuItem("ME Tools/把Atlas目录下的.png图片作为图集资源并放入Data目录")]
     static private void BuildUnityGUIAssetBundle()
     {
-       // string dir = Application.dataPath + "/StreamingAssets";
+        // string dir = Application.dataPath + "/StreamingAssets";
         BuildTarget target = GetTargetPlatform();
-        string assetPath = Application.dataPath + "/Data/asset/" + target + "/Atlas/";
+        string assetPath = Application.dataPath + "/Data/asset/" + target.ToString().ToLower() + "/Atlas/";
 
         if (!Directory.Exists(assetPath))
         {
@@ -170,7 +183,7 @@ public class Packager
             if (BuildPipeline.BuildAssetBundle(null, assets.ToArray(), path, BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.CollectDependencies, target))
             {
             }
-        }	
+        }
     }
 
 
@@ -186,7 +199,7 @@ public class Packager
     {
         BuildTarget target = BuildTarget.WebPlayer;
 #if UNITY_STANDALONE
-			target = BuildTarget.StandaloneWindows;
+        target = BuildTarget.StandaloneWindows;
 #elif UNITY_IPHONE
 			target = BuildTarget.iPhone;
 #elif UNITY_ANDROID
@@ -198,7 +211,7 @@ public class Packager
     //资源目标平台
     static BuildTarget GetTargetPlatform()
     {
-         BuildTarget target;
+        BuildTarget target;
         if (Application.platform == RuntimePlatform.OSXEditor)
         {
             target = BuildTarget.iPhone;
@@ -249,6 +262,6 @@ public class Packager
                 cleanMeta(dir);
             }
 
-        }        
+        }
     }
 }
