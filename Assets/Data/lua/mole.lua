@@ -1,5 +1,6 @@
 --老鼠的脚本
 --小陆 QQ 2604904
+--https://github.com/lulersoft/ME
 
 local mole={}
 local this
