@@ -107,14 +107,16 @@ public class Packager
         }
         //刷新编辑器 
         AssetDatabase.Refresh();
-    }
+    }   
+  
     /// <summary>
     /// 生成绑定素材
-    /// </summary>
+    /// </summary>  
+    /*
     [MenuItem("ME Tools/把Builds目录下的资源进行依赖打包并放入Data目录")]
     public static void BuildAssetResource()
     {
-        /*
+ 
         Object mainAsset = null;        //主素材名，单个
         Object[] addis = null;     //附加素材名，多个
         string assetfile = string.Empty;  //素材文件名
@@ -152,10 +154,9 @@ public class Packager
 
         ///-------------------------------刷新---------------------------------------
         BuildPipeline.PopAssetDependencies();
-        AssetDatabase.Refresh();
-         */
+        AssetDatabase.Refresh();       
     }
-
+  */
 
     [MenuItem("ME Tools/把Atlas目录下的.png图片作为图集资源并放入Data目录")]
     static private void BuildUnityGUIAssetBundle()

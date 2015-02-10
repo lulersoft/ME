@@ -15,6 +15,7 @@ using System.Text;
 public class LuaBehaviour : MonoBehaviour
 {
     public bool usingUpdate = false;
+    public bool usingFixedUpdate = false;
     protected bool isLuaReady = false;
     private string script = "";
   
@@ -40,6 +41,14 @@ public class LuaBehaviour : MonoBehaviour
         if (usingUpdate)
         {
             CallMethod("Update");
+        }
+    }
+
+    protected void FixedUpdate()
+    {
+        if (usingFixedUpdate)
+        {
+            CallMethod("FixedUpdate");
         }
     }
 
@@ -101,7 +110,7 @@ public class LuaBehaviour : MonoBehaviour
 
     IEnumerator onLoadBundle(string name, Callback<string, AssetBundle> handler)
     {
-        string uri = "file:///" + AssetPath + name.ToLower() + ".assetbundle";
+        string uri = "file:///" + AssetPath + name + ".assetbundle";
 
         WWW www = new WWW(uri);
         yield return www;
@@ -153,7 +162,7 @@ public class LuaBehaviour : MonoBehaviour
 
     public IEnumerator RunCoroutine()
     {        
-        System.Object[] result = new System.Object[0];
+        object[] result = new object[0];
         if (table == null) return (IEnumerator) result[0];
         result = CallMethod("RunCoroutine");
         return (IEnumerator)result[0];   
@@ -172,7 +181,8 @@ public class LuaBehaviour : MonoBehaviour
         }
         try
         {
-           // Debug.Log("DoFile:" + script);
+            //Debug.Log("DoFile:" + script);
+
             object[] chunk = env.DoFile(script);
 
             if (chunk != null && chunk[0] != null)
@@ -184,8 +194,9 @@ public class LuaBehaviour : MonoBehaviour
 
                 CallMethod("Start"); 
 
-                isLuaReady = true;               
-            }           
+                isLuaReady = true;    
+            }  
+           
         }
         catch (NLua.Exceptions.LuaException e)
         {
@@ -215,12 +226,12 @@ public class LuaBehaviour : MonoBehaviour
         }
     }
       //协程
-    public void RunCoroutine(YieldInstruction ins, LuaFunction func, params System.Object[] args)
+    public void RunCoroutine(YieldInstruction ins, LuaFunction func, params object[] args)
     {
         StartCoroutine(doCoroutine(ins, func, args)); 
     }
 
-    private IEnumerator doCoroutine(YieldInstruction ins, LuaFunction func, params System.Object[] args)
+    private IEnumerator doCoroutine(YieldInstruction ins, LuaFunction func, params object[] args)
     {
         yield return ins;
         if (args != null)
@@ -234,42 +245,52 @@ public class LuaBehaviour : MonoBehaviour
     }
 
 
-    public System.Object[] CallMethod(string function, params System.Object[] args)
+    public object[] CallMethod(string fn, params object[] args)
     {
-        if (table == null) return null;
-        LuaFunction func = table.RawGet(function) as LuaFunction;
-        if (func == null) return null;
-        try
+		//Debug.Log ("call function  >> "+fn);
+		object[] result=new object[0];
+
+		if (table == null || table[fn] == null || !(table[fn] is LuaFunction)) return result;
+
+		LuaFunction func = (LuaFunction)table[fn];// table.RawGet(fn) as LuaFunction;
+
+		try
         {
             if (args != null)
             {
-                return func.Call(args);
+				result= func.Call(args);
             }
             else
             {
-                return func.Call();
+				result= func.Call();
             }
 
         }
         catch (NLua.Exceptions.LuaException e)
         {
-            Debug.LogWarning(FormatException(e), gameObject);            
+			Debug.Log("Error whe call '"+fn+"',err="+e.Message);
+            Debug.LogWarning(FormatException(e));            
         }
-        return null;
+
+		return result;
     }
 
-    public System.Object[] CallMethod(string function)
+    public object[] CallMethod(string function)
     {
         return CallMethod(function, null); 
     }
 
-    private System.Object[] Call(string function, params System.Object[] args)
+    private object[] Call(string fn, params object[] args)
     {
-        System.Object[] result = new System.Object[0];
+
+		object[] result = new object[0];
+
         if (env == null || !isLuaReady) return result;
-        LuaFunction lf = env.GetFunction(function);
+
+        LuaFunction lf = env.GetFunction(fn);
 
         if (lf == null) return result;
+
         try
         {
             if (args != null)
@@ -283,12 +304,12 @@ public class LuaBehaviour : MonoBehaviour
         }
         catch (NLua.Exceptions.LuaException e)
         {
-            Debug.LogError(FormatException(e), gameObject);
+            Debug.LogError(FormatException(e));
         }
         return result;
     }
 
-    private System.Object[] Call(string function)
+    private object[] Call(string function)
     {
         return Call(function, null);
     }

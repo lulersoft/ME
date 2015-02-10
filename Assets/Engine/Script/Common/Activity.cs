@@ -17,29 +17,6 @@ public class Activity : LuaBehaviour
         InitAsstes(); 
     }
 
-    //public int outVal()
-    //  {
-    //      return 0;
-    //  }
-      public int outVal(out int val)
-      {
-          val = 5;
-          return 3;
-      }
-
-      public int outVal(out int val, int val2)
-      {
-          val = 5;
-          return val2;
-      }
-
-      public int outVal(int val, ref int val2)
-      {
-          val2 = val + val2;
-          return val;
-      }
-
-
     IEnumerator loadStreamingAssets()
     {
         string sorucefilename = "data.zip";
@@ -47,9 +24,6 @@ public class Activity : LuaBehaviour
         string log = "";
 
         string _name = "main.lua";
-        //Ray ray=Camera.main.ScreenPointToRay(Input.mousePosition);
-      
-        //Physics.Raycast( ray.origin,ray.direction,)
 
         byte[] bytes = null;
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
@@ -82,13 +56,13 @@ public class Activity : LuaBehaviour
 				bytes = new byte[fs.Length]; 
 				fs.Read(bytes,0,(int)fs.Length); 
 			}   
-		} catch (Exception e){ 
+		} catch (System.Exception e){ 
 			log +=  "\nTest Fail with Exception " + e.ToString(); 
 			log +=  "\n"; 
 		} 
 #elif UNITY_ANDROID 
 		string sourcepath = "jar:file://" + Application.dataPath + "!/assets/"+sorucefilename; 			
-		//NGUIDebug.Log("文件路径为：" + sourcepath); 
+		//Debug.Log("文件路径为：" + sourcepath); 
 		log += "asset path is: " + sourcepath; 
 		WWW www = new WWW(sourcepath); 
         yield return www;
@@ -122,14 +96,13 @@ public class Activity : LuaBehaviour
 
             yield return new WaitForEndOfFrame();
 
-            //加载入口文件 main.lua
-            DoFile(_name);
+            log += string.Format("\n{0} created!  ", "UnpackFiles");
+			
+			Debug.Log(log);
 
-            yield return new WaitForEndOfFrame();            
-
-            log += string.Format("\n{0} created!  ", "res");
-
-            Debug.Log(log);
+			//加载入口文件 main.lua
+            DoFile(_name); 
+     
         }
     }
     void InitAsstes()
