@@ -20,19 +20,20 @@ ME框架的思路就是 一个GameObject 对应挂个LuaBehaviour.cs脚本，这
 ![](demo.jpg)
 
 //-----------------安装说明------------<br>
-Assets/Engine 为本框所有架核心代码，其它请和 https://github.com/Mervill/Unity3D-NLua 保持一致.<br>
+Assets/Engine 为本框所有架核心代码，其它请和 https://github.com/Mervill/Unity3D-NLua 保持一致.
+
+Assets/Engine 为本框所有架核心代码<br>
+Assets/Atlas 将要打包的ui图片<br>
+Assets/Builds 将要打包的预置物<br>
+Assets/Data 为资源输出目录和lua脚本目录，此文件夹将被压缩为zip放入Assets/StreamingAssets<br>
+Assets/StreamingAssets 为zip更新包输出目录，在执行ME Tools 菜单相关选项生成后，请把一份上传到wwwroot服务器目录内，供客户端下载更新。<br>
+
+Assets/Engine/Scene/Demo.unity  为测试场景<br>
 
 wwwroot目录为web服务器目录，请上传到您的web服务器 请修改version内json参数,status： 0 无更新，1有更新包;force 1强制更新,0不强制更新,downrul 更新包路径<br>
 
-u3d工程目录内:<br>
-Assets/data为资源文件，所有打包的文件存放这里(含lua)。 <br>
-Assets/data/lua为 lua 脚本代码<br>
-Assets/StreamingAssets 存放的是生成好的更新包(data.zip),内容为data资源文件夹。<br>
-生成后，请把一份上传到wwwroot服务器目录内，供客户端下载更新。<br>
 
-测试场景 Engine/Scene/Demo.unity<br>
-
-首次安装会从 StreamingAssets 中复制资源文件data.zip并解压到可读目录，然后加载主入口文件main.lua执行 所有逻辑尽可能在lua端执行 如：在lua中进行版本检测，下载zip，解压覆盖以后每次运行，会检测远程服务器版本，如果有更新，则下载，并自动解压覆盖资源目录。<br>
+首次运行工程(Assets/Engine/Scene/Demo.unity),程序从 StreamingAssets 中复制资源文件data.zip并解压到可读目标目录，然后从这可读目标目录加载主入口文件main.lua 执行,框架所有逻辑全部尽可能在lua端执行 。如：在lua中进行版本检测，下载zip，解压覆盖以后每次运行，会检测远程服务器版本，如果有更新，则下载，并自动解压覆盖资源目录。<br>
 
 
 特性：<br>
@@ -41,8 +42,25 @@ unity3d editor编辑器负责可视化资源的创建和打包。<br>
 使用内置ugui来做UI甚至游戏。<br>
 热更新更彻底：可通过热更新来更新成不同类型的游戏。<br>
 通过纯lua“打地鼠”小游戏实战来提高框架的实用性.<br>
+<br>
+
+//附带地鼠资源打包教程和编辑脚本测试工程教程：<br><br>
+
+1.执行编辑器菜单 ME tools/清理缓存,让一切重新开始.<br>
+2.执行编辑器菜单 ME tools/把Atlas目录下的.png图片作为图集资源并放入Data目录.<br>
+3.在Project窗体内 鼠标点选选中 Assets/Builds/GUI,然后 执行编辑器菜单 ME tools/独立打包选中目录下的各个对象并放入Data目录<br>
+4.执行编辑器菜单 ME tools/制作更新包：把Data目录压缩为一个zip包并放入StreamingAssets目录<br>
+
+通过以上步骤完成资源和升级包的制作了。<br>
+
+如果在编辑器进行代码修改或者资源修改，请重复以上步骤。<br>
+如果仅仅修改 Assets/Data/lua 下的逻辑脚本，您只需要执行以上的1和4步骤。<br>
 
 更新历史:<br>
+
+//------------- now ----------------- <br>
+
+更多更新请同步 https://github.com/lulersoft/ME<br>
 
 //-------------2015-2-1--------------- 版本 0.0.2<br>
 
