@@ -94,15 +94,23 @@ public class API  {
         }
     }
 
-    //异步HTTP
-    public static WebClientEx SendRequest(string url, string data, UploadProgressChangedEventHandler progressHander, UploadStringCompletedEventHandler completehandler)
+	//异步HTTP
+    public static WebClientEx SendRequest(string url, string data, LuaFunction progressHander, LuaFunction completeHandler)
     {
         WebClientEx webClient = new WebClientEx();
         webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";  //采取POST方式必须加的header，如果改为GET方式的话就去掉这句话即可  
         webClient.Encoding = System.Text.UTF8Encoding.UTF8;
         System.Uri uri = new System.Uri(url);
-        webClient.UploadProgressChanged += progressHander;
-        webClient.UploadStringCompleted += completehandler;
+
+        webClient.UploadProgressChanged += (object sender, UploadProgressChangedEventArgs e) =>
+        {
+            progressHander.Call(sender,e);
+        };
+        webClient.UploadStringCompleted += (object sender, UploadStringCompletedEventArgs e) =>
+        {
+            completeHandler.Call(sender,e);
+        };
+
         try
         {
             webClient.UploadStringAsync(uri, "POST", data);//得到返回字符流      
@@ -111,16 +119,23 @@ public class API  {
         {
             Debug.Log("Post err " + e.Message);
         }
+         //返回client ，可用 client.CancelAsync(); 中断下载
         return webClient;
     }
-        
-
+ 
     //异步下载
-    public static WebClient DownLoad(string src, string SavePath, DownloadProgressChangedEventHandler progressHander, AsyncCompletedEventHandler completeHander)
+    public static WebClient DownLoad(string src, string SavePath, LuaFunction progressHander, LuaFunction completeHander)
     {
-        WebClient client = new WebClient();       
-        client.DownloadProgressChanged += progressHander;
-        client.DownloadFileCompleted += completeHander;
+        WebClient client = new WebClient();
+        client.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) =>
+        {
+            progressHander.Call(sender,e);
+        };
+        client.DownloadFileCompleted += (object sender, AsyncCompletedEventArgs e) =>
+        {
+            completeHander.Call(sender,e);
+        };
+
         try
         {
             client.DownloadFileAsync(new System.Uri(src), SavePath);
@@ -134,15 +149,19 @@ public class API  {
         return client;
     }
 
-    //时钟
-    public static Timer AddTimer(float interval, ElapsedEventHandler OnTimer)
+   //时钟
+    public static Timer AddTimer(float interval, LuaFunction onTimerHander)
     {
         Timer timer = new Timer();
-        timer.Elapsed += OnTimer;
+        timer.Elapsed += (object sender, ElapsedEventArgs e) =>
+        {
+            onTimerHander.Call(sender, e);
+        };
         timer.Interval = interval;
         timer.Enabled = true;
         return timer;
     }
+    
     public static void KillTimer(Timer timer)
     {
         if (timer != null)
