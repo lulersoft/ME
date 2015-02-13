@@ -37,9 +37,6 @@ function mole.Start()
 
 end
 
-mole.status= status
-mole.live=live
-
 function mole.reset()
 	mole.live=1
 	mole.status=0
