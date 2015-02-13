@@ -63,7 +63,8 @@ function game.onHitMole(go)
 	score.text="score:"..tostring(point)
 end
 
-function game.onMissMole(go)	
+function game.onMissMole(go)
+	if gameOver then return end
 	--扣生命点
 	hp=hp-1
 	local v=hp/10*200
