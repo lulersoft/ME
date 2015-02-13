@@ -239,7 +239,7 @@ function game.moleComeOut()
 	local idx=math.floor(8 * math.random())+1
 	local mole=moleArr[idx]
 		
-	if mole then
+	if mole and gameOver==false then
 		if mole.status==1 then
 			game.moleComeOut()
 		else
