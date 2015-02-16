@@ -1,4 +1,4 @@
-#ME
+#ME 游戏框架 for nlua
 <b>ME_Unity3D-NLua是一个基于unity+nlua技术的全LUA免费开源（带有资源下载功能）游戏框架</b>
 
 基于https://github.com/Mervill/Unity3D-NLua
