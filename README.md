@@ -4,6 +4,8 @@ ME游戏框架 是一系列使用lua热更新unity3d游戏全lua免费开源游�
 
 当前有两款框架供大家使用 ME_NLua 和 ME_SLua
 
+ME框架写的LUA游戏代码和制作资源包高度兼容ME_NLua和ME_SLua框架，也就是说，同样一份游戏逻辑代码可以跑在两个框架上。
+
 整理：小陆(QQ2604904)
 
 ###ME for NLua
