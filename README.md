@@ -35,8 +35,6 @@ ME框架写的LUA游戏代码和制作资源包高度兼容ME_NLua和ME_SLua框�
 
 ##安装说明
 
-Assets/Engine 为本框所有架核心代码，其它请和 https://github.com/Mervill/Unity3D-NLua 保持一致.
-
 Assets/Engine 为本框所有架核心代码
 
 Assets/Atlas 将要打包的ui图片
