@@ -12,7 +12,7 @@ ME_NLua项目地址 https://github.com/lulersoft/ME_NLua
 
 ###ME for SLua
 
-ME_SLua项目地址 https://github.com/lulersoft/ME_NLua
+ME_SLua项目地址 https://github.com/lulersoft/ME_SLua
 
 
 ##ME框架目标
