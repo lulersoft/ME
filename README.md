@@ -12,10 +12,13 @@ ME框架写的LUA游戏代码和制作资源包高度兼容ME_NLua和ME_SLua框�
 
 ME_NLua项目地址 https://github.com/lulersoft/ME_NLua
 
+讨论Q群：341746602
+
 ###ME for SLua
 
 ME_SLua项目地址 https://github.com/lulersoft/ME_SLua
 
+讨论Q群：15647305
 
 ##ME框架目标
 
